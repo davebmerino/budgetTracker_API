@@ -8,6 +8,9 @@ const errorLogger = require("../../../helpers/errorLogger.js");
 async function createExpenseProvider(req, res) {
   const validatedData = matchedData(req);
   try {
+    const userId = req.user.sub;
+    const expenseDate = validatedData.date ?? new Date();
+
     const salary = await Salary.findOne({
       userId: req.user.sub,
       periodStart: { $lte: expenseDate },
@@ -22,7 +25,8 @@ async function createExpenseProvider(req, res) {
 
     const expense = new Expense({
       ...validatedData,
-      userId: req.user.sub,
+      date: expenseDate,
+      userId: userId,
       salaryId: salary._id,
     });
     await expense.save();
@@ -30,7 +34,7 @@ async function createExpenseProvider(req, res) {
   } catch (error) {
     errorLogger("Error creating expense", req, error);
     return res
-      .status(StatusCodes.GATEWAY_TIMEOUT)
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ message: "Error while creating expense" });
   }
 }

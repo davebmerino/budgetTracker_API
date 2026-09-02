@@ -1,4 +1,5 @@
 const { matchedData } = require("express-validator");
+const { StatusCodes } = require("http-status-codes");
 
 const errorLogger = require("../../../helpers/errorLogger.js");
 const Expense = require("../expense.schema.js");
@@ -113,7 +114,7 @@ async function getExpenseProvider(req, res) {
       },
     });
   } catch (error) {
-    errorLogger("Error getting expense", params.req, error);
+    errorLogger("Error getting expense", req, error);
 
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       message: "An error occurred while fetching expenses",

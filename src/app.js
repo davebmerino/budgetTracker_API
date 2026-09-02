@@ -10,6 +10,7 @@ const expressWinstonMiddleware = require("./middleware/expressWinston.js");
 const loginRouter = require("./auth/auth.routes.js");
 const userRoutes = require("./modules/user/user.routes.js");
 const expenseRouter = require("./modules/expenses/expense.routes.js");
+const salaryRoutes = require("./modules/salary/salary.routes.js");
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use(expressWinstonMiddleware);
 app.use("/api", userRoutes);
 app.use("/api", loginRouter);
 app.use("/api", expenseRouter);
+app.use("/api", salaryRoutes);
 
 app.use((req, res) => {
   res.status(StatusCodes.NOT_FOUND).json({

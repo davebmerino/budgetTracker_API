@@ -1,9 +1,9 @@
 const express = require("express");
 const { validationResult } = require("express-validator");
+const { StatusCodes } = require("http-status-codes");
 
 const createUserValidator = require("./validator/createUser.validator.js");
 const userController = require("./user.controller.js");
-const { StatusCodes } = require("http-status-codes");
 
 const userRoutes = express.Router();
 

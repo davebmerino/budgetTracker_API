@@ -11,17 +11,17 @@ function responseFormatter(req, res, next) {
       message: getReasonPhrase(res.statusCode),
       data: data,
     };
-    // if (res.statusCode >= 200 && res.statusCode < 300) {
-    //   response.data = data.pagination ? data.data : data;
-    // }
+    if (res.statusCode >= 200 && res.statusCode < 300) {
+      response.data = data.pagination ? data.data : data;
+    }
 
-    // if (res.statusCode >= 300) {
-    //   response.data = data;
-    // }
+    if (res.statusCode >= 300) {
+      response.data = data;
+    }
 
-    // if (data.pagination) {
-    //   response.pagination = data.pagination;
-    // }
+    if (data.pagination) {
+      response.pagination = data.pagination;
+    }
 
     return originalJson.call(res, response);
   };
