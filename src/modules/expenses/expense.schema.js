@@ -8,6 +8,11 @@ const expenseSchema = new Schema(
       trim: true,
       required: true,
     },
+    salaryId: {
+      type: Schema.Types.ObjectId,
+      ref: "Salary",
+      default: null,
+    },
     amount: {
       type: Number,
       required: true,
@@ -27,12 +32,19 @@ const expenseSchema = new Schema(
     date: {
       type: Date,
       default: Date.now,
+      required: true,
     },
   },
   {
     timestamps: true,
   },
 );
+
+// // Fetch a user's expenses sorted by date
+// expenseSchema.index({ userId: 1, date: -1 });
+
+// // Fetch expenses belonging to a salary period
+// expenseSchema.index({ userId: 1, salaryId: 1, date: -1 });
 
 const Expense = model("Expense", expenseSchema);
 module.exports = Expense;
