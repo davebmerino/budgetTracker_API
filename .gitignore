@@ -1,5 +1,5 @@
 .env
 
-.access.log
-.error.log
-.info.log
+access.log
+error.log
+info.log
