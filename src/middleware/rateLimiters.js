@@ -1,7 +1,7 @@
 const rateLimit = require("express-rate-limit");
 
 //Log in Limit
-const authLimiter = rateLimit({
+const authLimiter = rateLimit({ 
   windowMs: 15 * 60 * 1000,
 
   // Maximum 10 failed requests per IP every 15 minutes

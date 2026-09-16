@@ -50,3 +50,5 @@ async function getSalaryProvider(req, res) {
     });
   }
 }
+
+module.exports = getSalaryProvider
