@@ -12,7 +12,7 @@ async function updateExpenseProvider(req, res) {
     const { expenseId } = req.params;
     const userId = req.user.sub;
 
-    //fetch for both  expenseId and userId so that I will only update the expense belongs to the user
+    //fetch for both  expenseId and userId so that It will only update the expense belongs to the user
     const expense = await Expense.findOne({
       _id: expenseId,
       userId,

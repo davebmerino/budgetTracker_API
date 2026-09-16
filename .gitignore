@@ -3,3 +3,5 @@
 access.log
 error.log
 info.log
+
+node_modules

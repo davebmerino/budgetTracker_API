@@ -3,10 +3,11 @@ const authController = require("./auth.controller.js");
 const loginValidator = require("./validator/login.validator.js");
 const { validationResult } = require("express-validator");
 const { StatusCodes } = require("http-status-codes");
+const { authLimiter } = require("../middleware/rateLimiters.js");
 
 const loginRouter = express.Router();
 
-loginRouter.post("/login", loginValidator, (req, res) => {
+loginRouter.post("/login", authLimiter, loginValidator, (req, res) => {
   const result = validationResult(req);
 
   if (result.isEmpty()) {

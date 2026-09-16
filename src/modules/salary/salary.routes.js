@@ -8,17 +8,15 @@ const salaryController = require("./salary.controller.js");
 
 const salaryRoutes = express.Router();
 
-salaryRoutes.post(
-  "/salary",
-  [createSalaryValidator, authenticateToken],
-  (req, res) => {
-    const result = validationResult(req);
-    if (result.isEmpty()) {
-      return salaryController.handleCreateSalary(req, res);
-    } else {
-      return res.status(StatusCodes.BAD_REQUEST).json(result.array());
-    }
-  },
-);
+salaryRoutes.use(authenticateToken);
+
+salaryRoutes.post("/salary", createSalaryValidator, (req, res) => {
+  const result = validationResult(req);
+  if (result.isEmpty()) {
+    return salaryController.handleCreateSalary(req, res);
+  } else {
+    return res.status(StatusCodes.BAD_REQUEST).json(result.array());
+  }
+});
 
 module.exports = salaryRoutes;
