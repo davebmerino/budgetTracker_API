@@ -8,45 +8,38 @@ const salaryController = require("./salary.controller.js");
 const updateSalaryValidator = require("./validators/updateSalary.validator.js");
 const deleteSalaryValidator = require("./validators/deleteSalary.validator.js");
 const getSalaryValidator = require("./validators/getSalary.validator.js");
+const validateRequest = require("../../middleware/validateRequest.middleware.js");
 
 const salaryRoutes = express.Router();
 
 salaryRoutes.use(authenticateToken);
 
-salaryRoutes.post("/salary", createSalaryValidator, (req, res) => {
-  const result = validationResult(req);
-  if (result.isEmpty()) {
-    return salaryController.handleCreateSalary(req, res);
-  } else {
-    return res.status(StatusCodes.BAD_REQUEST).json(result.array());
-  }
-});
+salaryRoutes.post(
+  "/salary",
+  createSalaryValidator,
+  validateRequest,
+  salaryController.handleCreateSalary,
+);
 
-salaryRoutes.patch("/salary", updateSalaryValidator, (req, res) => {
-  const result = validationResult(req);
-  if (result.isEmpty()) {
-    return salaryController.handleUpdateSalary(req, res);
-  } else {
-    return res.status(StatusCodes.BAD_REQUEST).json(result.array());
-  }
-});
+salaryRoutes.patch(
+  "/salary",
+  updateSalaryValidator,
+  validateRequest,
+  salaryController.handleUpdateSalary,
+);
 
-salaryRoutes.delete("/salary", deleteSalaryValidator, (req, res) => {
-  const result = validationResult(req);
-  if (result.isEmpty()) {
-    return salaryController.handleDeleteSalary(req, res);
-  } else {
-    return res.status(StatusCodes.BAD_REQUEST).json(result.array());
-  }
-});
+salaryRoutes.delete(
+  "/salary",
+  deleteSalaryValidator,
+  validateRequest,
+  salaryController.handleDeleteSalary,
+);
 
-salaryRoutes.get("/salary", getSalaryValidator, (req, res) => {
-  const result = validationResult(req);
-  if (result.isEmpty()) {
-    return salaryController.handleGetSalary(req, res);
-  } else {
-    return res.status(StatusCodes.BAD_REQUEST).json(result.array());
-  }
-});
+salaryRoutes.get(
+  "/salary",
+  getSalaryValidator,
+  validateRequest,
+  salaryController.handleGetSalary,
+);
 
 module.exports = salaryRoutes;

@@ -1,18 +1,30 @@
 const Salary = require("../salary.schema.js");
 const calculateSalaryPeriod = require("../helpers/calculateSalaryPeriod.helper.js");
 
+const SalarySchedule = require("../../salaryschedule/salarySchedule.schema.js");
+
 const { StatusCodes } = require("http-status-codes");
 const { matchedData } = require("express-validator");
 const errorLogger = require("../../../helpers/errorLogger.js");
 
 async function createSalaryProvider(req, res) {
+  const data = matchedData(req);
+  const userId = req.user.sub;
   try {
-    const data = matchedData(req);
-    const userId = req.user.sub;
+    //Fetch salary schedule
+    const schedule = await SalarySchedule.findOne({
+      userId: req.user.sub,
+    });
+    if (!schedule) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        message: "Please create your salary schedule first.",
+      });
+    }
 
     const { periodStart, periodEnd } = calculateSalaryPeriod(
       data.payDate,
       data.payPeriod,
+      schedule,
     );
 
     const existingSalary = await Salary.findOne({
@@ -42,7 +54,6 @@ async function createSalaryProvider(req, res) {
     }
 
     const salary = await Salary.create({
-      userId,
       amount: data.amount,
       payDate: data.payDate,
       payPeriod: data.payPeriod,

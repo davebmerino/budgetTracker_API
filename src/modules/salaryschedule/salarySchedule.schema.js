@@ -43,4 +43,5 @@ const salaryScheduleSchema = new Schema(
   { timestamps: true },
 );
 
-module.exports = model("SalarySchedule", salaryScheduleSchema);
+const SalarySchedule = model("SalarySchedule", salaryScheduleSchema);
+module.exports = SalarySchedule;

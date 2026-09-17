@@ -1,6 +1,6 @@
 const User = require("../../modules/user/user.schema.js");
 const generateTokenProvider = require("./generateToken.provider.js");
-const erroroLogger = require("../../helpers/errorLogger.js");
+const errorLogger = require("../../helpers/errorLogger.js");
 
 const { StatusCodes } = require("http-status-codes");
 const { matchedData } = require("express-validator");
@@ -35,15 +35,17 @@ async function loginProvider(req, res) {
 
     //Generate JWT token
     const token = generateTokenProvider(user);
+    console.log("user", user);
 
     //Return response
     return res.status(StatusCodes.OK).json({
       accessToken: token,
+      _id: user._id,
       email: user.email,
-      name: user.name,
+      name: user.firstName,
     });
   } catch (error) {
-    erroroLogger("Error occurred while logging in", req, error);
+    errorLogger("Error occurred while logging in", req, error);
     return res.status(StatusCodes.GATEWAY_TIMEOUT).json({
       message: "An error occurred while logging in. Please try again later.",
     });
