@@ -1,4 +1,5 @@
 const { body, param } = require("express-validator");
+const EXPENSE_CATEGORIES = require("../constants/expenseCategory");
 
 const updateExpenseValidator = [
   param("expenseId").isMongoId().withMessage("Invalid expense ID"),
@@ -17,6 +18,12 @@ const updateExpenseValidator = [
     .bail()
     .isLength({ max: 100 })
     .withMessage("Title must not exceed 100 characters"),
+
+  body("category")
+    .optional()
+    .trim()
+    .isIn(EXPENSE_CATEGORIES)
+    .withMessage(`Category must be one of: ${EXPENSE_CATEGORIES.join(", ")}`),
 
   body("description")
     .optional()

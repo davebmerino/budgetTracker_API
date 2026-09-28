@@ -23,6 +23,21 @@ const expenseSchema = new Schema(
       trim: true,
       maxLength: [100, "The Max length is 100 characters"],
     },
+
+    category: {
+      type: String,
+      required: true,
+      trim: true,
+      enum: [
+        "housing",
+        "foodAndDrinks",
+        "shopping",
+        "subscription",
+        "schoolFees",
+        "others",
+      ],
+    },
+
     description: {
       type: String,
       required: true,

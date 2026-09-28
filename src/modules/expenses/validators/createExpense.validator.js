@@ -1,4 +1,5 @@
-const { body, param } = require("express-validator");
+const { body } = require("express-validator");
+const EXPENSE_CATEGORIES = require("../constants/expenseCategory");
 
 const createExpenseValidator = [
   body("amount")
@@ -8,6 +9,12 @@ const createExpenseValidator = [
     .isFloat({ gt: 0 })
     .withMessage("Amount must be a number greater than 0")
     .toFloat(),
+
+  body("category")
+    .optional()
+    .trim()
+    .isIn(EXPENSE_CATEGORIES)
+    .withMessage(`Category must be one of: ${EXPENSE_CATEGORIES.join(", ")}`),
 
   body("title")
     .trim()
