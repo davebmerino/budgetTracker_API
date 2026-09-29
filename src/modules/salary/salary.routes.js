@@ -9,6 +9,7 @@ const updateSalaryValidator = require("./validators/updateSalary.validator.js");
 const deleteSalaryValidator = require("./validators/deleteSalary.validator.js");
 const getSalaryValidator = require("./validators/getSalary.validator.js");
 const validateRequest = require("../../middleware/validateRequest.middleware.js");
+const monthlySummaryValidator = require("./validators/monthlySummary.validator.js");
 
 const salaryRoutes = express.Router();
 
@@ -42,4 +43,10 @@ salaryRoutes.get(
   salaryController.handleGetSalary,
 );
 
+salaryRoutes.get(
+  "/monthly-summary",
+  monthlySummaryValidator,
+  validateRequest,
+  salaryController.handleGetMonthlySummary,
+);
 module.exports = salaryRoutes;

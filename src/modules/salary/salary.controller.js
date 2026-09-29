@@ -1,5 +1,6 @@
 const createSalaryProvider = require("./providers/createSalary.provider.js");
 const deleteSalaryProvider = require("./providers/deleteSalary.provider.js");
+const getMonthlySalarySummaryProvider = require("./providers/getMonthlySalary.provider.js");
 const getSalaryProvider = require("./providers/getSalary.provider.js");
 const updateSalaryProvider = require("./providers/updateSalary.provider.js");
 
@@ -18,9 +19,14 @@ async function handleDeleteSalary(req, res) {
 async function handleGetSalary(req, res) {
   return await getSalaryProvider(req, res);
 }
+
+async function handleGetMonthlySummary(req, res) {
+  return await getMonthlySalarySummaryProvider(req, res);
+}
 module.exports = {
   handleCreateSalary,
   handleDeleteSalary,
   handleGetSalary,
   handleUpdateSalary,
+  handleGetMonthlySummary,
 };

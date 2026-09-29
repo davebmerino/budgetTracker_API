@@ -1,5 +1,6 @@
 const { matchedData } = require("express-validator");
 const Salary = require("../salary.schema.js");
+const Expense = require("../../expenses/expense.schema.js");
 
 async function getSalaryProvider(req, res) {
   const data = matchedData(req);
@@ -14,19 +15,42 @@ async function getSalaryProvider(req, res) {
     //Filter by user
     const filter = { user: req.user.sub };
 
-    const totalTask = await Task.countDocuments(filter);
-    const totalPages = Math.max(Math.ceil(totalTask / limit), 1);
+    const totalSalary = await Salary.countDocuments(filter);
+    const totalPages = Math.max(Math.ceil(totalSalary / limit), 1);
     const nextPage = currentPage >= totalPages ? currentPage : currentPage + 1;
     const previousPage = currentPage <= 1 ? currentPage : currentPage - 1;
 
     //I use filter to only find salary belongs to the user
-    const salary = await Salary.find(filter)
+    const salaries = await Salary.find(filter)
       .limit(limit)
       .skip((currentPage - 1) * limit)
       .sort({ payDate: order === "asc" ? 1 : -1 });
 
+    const salaryIds = salaries.map((salary) => salary._id);
+
+    const categoryTotals = await Expense.aggregate([
+      {
+        $match: {
+          salaryId: {
+            $in: salaryIds,
+          },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            salaryId: "$salaryId",
+            category: "$category",
+          },
+          total: {
+            $sum: "$amount",
+          },
+        },
+      },
+    ]);
+
     return res.status(StatusCodes.OK).json({
-      data: salary,
+      data: salaries,
       pagination: {
         meta: {
           itemsPerPage: limit,
@@ -51,4 +75,4 @@ async function getSalaryProvider(req, res) {
   }
 }
 
-module.exports = getSalaryProvider
+module.exports = getSalaryProvider;
