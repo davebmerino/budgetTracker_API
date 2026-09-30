@@ -2,7 +2,7 @@ const { matchedData } = require("express-validator");
 const { StatusCodes } = require("http-status-codes");
 
 const Salary = require("../salary.schema.js");
-const Expense = require("../../expense/expense.schema.js");
+const Expense = require("../../expenses/expense.schema.js");
 const errorLogger = require("../../../helpers/errorLogger.js");
 
 async function getMonthlySalarySummaryProvider(req, res) {

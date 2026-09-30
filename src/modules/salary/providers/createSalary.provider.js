@@ -54,6 +54,7 @@ async function createSalaryProvider(req, res) {
     }
 
     const salary = await Salary.create({
+      userId: userId,
       amount: data.amount,
       payDate: data.payDate,
       payPeriod: data.payPeriod,
