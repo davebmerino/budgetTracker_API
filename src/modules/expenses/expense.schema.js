@@ -30,6 +30,7 @@ const expenseSchema = new Schema(
       trim: true,
       enum: [
         "housing",
+        "groceries",
         "foodAndDrinks",
         "shopping",
         "subscription",
