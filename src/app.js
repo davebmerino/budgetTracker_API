@@ -19,7 +19,26 @@ const app = express();
 
 app.use(express.json());
 
-app.use(cors());
+const allowedOrigins = ["http://localhost:5173"];
+
+app.use(
+  cors({
+    origin(origin, callback) {
+      // Allow tools without a browser origin,
+      // such as Postman.
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error(`Origin not allowed: ${origin}`));
+    },
+    credentials: true,
+  }),
+);
 
 const accessLogStream = fs.createWriteStream(
   path.join(__dirname, "..", "access.log"),
