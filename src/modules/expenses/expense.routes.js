@@ -23,21 +23,21 @@ expenseRouter.post(
 
 expenseRouter.get(
   "/expense",
-  createExpenseValidator,
+  getExpensesValidator,
   validateRequest,
   expenseController.handleGetExpense,
 );
 
 expenseRouter.patch(
   "/:expenseId",
-  createExpenseValidator,
+  updateExpenseValidator,
   validateRequest,
   expenseController.handleUpdateExpense,
 );
 
 expenseRouter.delete(
   "/:expenseId",
-  createExpenseValidator,
+  deleteExpenseValidator,
   validateRequest,
   expenseController.handleDeleteExpense,
 );
