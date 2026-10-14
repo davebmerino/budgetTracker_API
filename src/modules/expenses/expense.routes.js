@@ -1,6 +1,4 @@
 const express = require("express");
-const { StatusCodes } = require("http-status-codes");
-const { validationResult } = require("express-validator");
 
 const authenticateToken = require("../../middleware/authenticateToken.js");
 const validateRequest = require("../../middleware/validateRequest.middleware.js");
@@ -16,6 +14,10 @@ expenseRouter.use(authenticateToken);
 
 expenseRouter.post(
   "/expense",
+  (req, res, next) => {
+    console.log("Expense route reached:", req.method, req.originalUrl);
+    next();
+  },
   createExpenseValidator,
   validateRequest,
   expenseController.handleCreateExpense,
