@@ -1,6 +1,4 @@
 const express = require("express");
-const { validationResult } = require("express-validator");
-const { StatusCodes } = require("http-status-codes");
 
 const createSalaryValidator = require("./validators/createSalary.validator.js");
 const authenticateToken = require("../../middleware/authenticateToken.js");

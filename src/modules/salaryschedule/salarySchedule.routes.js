@@ -7,6 +7,7 @@ const createSalaryScheduleValidator = require("./validators/createSalarySchedule
 const updateExpenseValidator = require("../expenses/validators/updateExpense.validator");
 const deleteExpenseValidator = require("../expenses/validators/deleteExpense.validator");
 const getExpensesValidator = require("../expenses/validators/getExpense.validator");
+const updateSalaryScheduleValidator = require("./validators/updateSalarySchedule.validator");
 
 const salaryScheduleRoute = express.Router();
 
@@ -21,7 +22,7 @@ salaryScheduleRoute.post(
 
 salaryScheduleRoute.patch(
   "/salary-date",
-  updateExpenseValidator,
+  updateSalaryScheduleValidator,
   validateRequest,
   salaryScheduleController.handleUpdateSalarySchedule,
 );

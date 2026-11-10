@@ -8,11 +8,9 @@ async function updateSalaryScheduleProvider(req, res) {
 
   try {
     //Get the salarySchedule 1st
-    const salarySchedule = await SalarySchedule({
-      _id: validatedData["_id"],
+    const salarySchedule = await SalarySchedule.findOne({
       userId: req.user.sub,
     });
-    console.log("user id", req.user.sub);
 
     //
     if (!salarySchedule) {
@@ -28,7 +26,12 @@ async function updateSalaryScheduleProvider(req, res) {
 
     await salarySchedule.save();
 
-    return res.status(StatusCodes.OK).json(task);
+    return res.status(StatusCodes.OK).json({
+      status: "success",
+      statusCode: StatusCodes.OK,
+      message: "Salary schedule updated successfully",
+      data: salarySchedule,
+    });
   } catch (error) {
     errorLogger(
       `Error while updating salary schedule: ${error.message}`,
