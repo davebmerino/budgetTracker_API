@@ -1,4 +1,5 @@
 const createSalaryScheduleProvider = require("./providers/createSalarySchedule.provider");
+const getSalaryScheduleProvider = require("./providers/getSalarySchedule.provider");
 const updateSalaryScheduleProvider = require("./providers/updateSalarySchedule.provider");
 
 async function handleCreateSalarySchedule(req, res) {
@@ -8,9 +9,11 @@ async function handleCreateSalarySchedule(req, res) {
 async function handleUpdateSalarySchedule(req, res) {
   return await updateSalaryScheduleProvider(req, res);
 }
-async function handleDeleteSalarySchedule(params) {}
+async function handleDeleteSalarySchedule(req, res) {}
 
-async function handleGetSalarySchedule(params) {}
+async function handleGetSalarySchedule(req, res) {
+  return await getSalaryScheduleProvider(req, res);
+}
 
 module.exports = {
   handleCreateSalarySchedule,
