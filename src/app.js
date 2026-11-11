@@ -53,9 +53,10 @@ app.use(expressWinstonMiddleware);
 //Routes
 app.use("/api", userRoutes);
 app.use("/api", loginRouter);
-app.use("/api", expenseRouter);
-app.use("/api", salaryRoutes);
+
 app.use("/api", salaryScheduleRoute);
+app.use("/api", salaryRoutes);
+app.use("/api", expenseRouter);
 
 app.use((req, res) => {
   res.status(StatusCodes.NOT_FOUND).json({

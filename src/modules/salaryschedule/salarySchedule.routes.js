@@ -4,10 +4,10 @@ const validateRequest = require("../../middleware/validateRequest.middleware");
 const salaryScheduleController = require("./salarySchedule.controller");
 
 const createSalaryScheduleValidator = require("./validators/createSalarySchedule.validator");
-const updateExpenseValidator = require("../expenses/validators/updateExpense.validator");
-const deleteExpenseValidator = require("../expenses/validators/deleteExpense.validator");
-const getExpensesValidator = require("../expenses/validators/getExpense.validator");
+const deleteSalaryScheduleValidator = require("./validators/deleteSalarySchedule.validator");
+
 const updateSalaryScheduleValidator = require("./validators/updateSalarySchedule.validator");
+const getSalaryScheduleValidator = require("./validators/getSalarySchedule.validator");
 
 const salaryScheduleRoute = express.Router();
 
@@ -20,8 +20,19 @@ salaryScheduleRoute.post(
   salaryScheduleController.handleCreateSalarySchedule,
 );
 
+// salaryScheduleRoute.patch(
+//   "/salary-date",
+//   updateSalaryScheduleValidator,
+//   validateRequest,
+//   salaryScheduleController.handleUpdateSalarySchedule,
+// );
+
 salaryScheduleRoute.patch(
   "/salary-date",
+  (req, res, next) => {
+    console.log("SALARY SCHEDULE PATCH ROUTE HIT");
+    next();
+  },
   updateSalaryScheduleValidator,
   validateRequest,
   salaryScheduleController.handleUpdateSalarySchedule,
@@ -29,14 +40,14 @@ salaryScheduleRoute.patch(
 
 salaryScheduleRoute.delete(
   "/salary-date",
-  deleteExpenseValidator,
+  deleteSalaryScheduleValidator,
   validateRequest,
   salaryScheduleController.handleDeleteSalarySchedule,
 );
 
 salaryScheduleRoute.get(
   "/salary-date",
-  getExpensesValidator,
+  getSalaryScheduleValidator,
   validateRequest,
   salaryScheduleController.handleGetSalarySchedule,
 );

@@ -5,12 +5,16 @@ const errorLogger = require("../../../helpers/errorLogger");
 
 async function updateSalaryScheduleProvider(req, res) {
   const validatedData = matchedData(req);
+  const userId = req.user.sub;
 
   try {
+    console.log("Authenticated user ID:", userId);
     //Get the salarySchedule 1st
     const salarySchedule = await SalarySchedule.findOne({
-      userId: req.user.sub,
+      userId
     });
+
+    console.log("Found salary schedule:", salarySchedule);
 
     //
     if (!salarySchedule) {
@@ -23,6 +27,17 @@ async function updateSalaryScheduleProvider(req, res) {
       validatedData.firstPayDay || salarySchedule.firstPayDay;
     salarySchedule.secondPayDay =
       validatedData.secondPayDay || salarySchedule.secondPayDay;
+
+    const firstPayDay = validatedData.firstPayDay ?? salarySchedule.firstPayDay;
+
+    const secondPayDay =
+      validatedData.secondPayDay ?? salarySchedule.secondPayDay;
+
+    if (secondPayDay <= firstPayDay) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        message: "Second payday must be after the first payday",
+      });
+    }
 
     await salarySchedule.save();
 
